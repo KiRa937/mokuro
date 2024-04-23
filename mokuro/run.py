@@ -13,7 +13,7 @@ def run(*paths,
         force_cpu=False,
         as_one_file=True,
         disable_confirmation=True,
-        mobile=True
+        mobile=False
         ):
     paths = [Path(p).expanduser().absolute() for p in paths]
 

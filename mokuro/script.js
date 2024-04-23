@@ -14,7 +14,7 @@ const defaultState = {
   toggleOCRTextBoxes: false,
   backgroundColor: '#C4C3D0',
   menuPreloadAmount: 5,
-  connectEnabled: false,
+  connectEnabled: true,
   editSentence: true,
   cropImage: true,
   easyNav: true,
