@@ -10,7 +10,7 @@ from yattag import Doc
 
 from mokuro import __version__
 from mokuro.env import ASSETS_PATH
-from mokuro.manga_page_ocr import MangaPageOcr
+from manga_page_ocr import MangaPageOcr
 from mokuro.utils import dump_json, load_json
 
 SCRIPT_PATH = Path(__file__).parent / 'script.js'

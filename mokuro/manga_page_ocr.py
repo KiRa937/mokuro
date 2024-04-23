@@ -10,6 +10,8 @@ from mokuro import __version__
 from mokuro.cache import cache
 from mokuro.utils import imread
 
+import easyocr
+
 
 class MangaPageOcr:
     def __init__(self,
@@ -31,7 +33,8 @@ class MangaPageOcr:
         self.text_detector = TextDetector(model_path=cache.comic_text_detector, input_size=detector_input_size,
                                           device='cpu',
                                           act='leaky')
-        self.mocr = MangaOcr(pretrained_model_name_or_path, force_cpu)
+        #self.mocr = MangaOcr(pretrained_model_name_or_path, force_cpu)
+        self.eocr = easyocr.Reader(['fr'])
 
     def __call__(self, img_path):
         img = imread(img_path)
@@ -61,10 +64,14 @@ class MangaPageOcr:
                     textheight=self.text_height, max_ratio=max_ratio, anchor_window=self.anchor_window)
 
                 line_text = ''
+                
                 for line_crop in line_crops:
+                    #print("DEBUG")
+                    #print(Image.fromarray(line_crop))
                     if blk.vertical:
                         line_crop = cv2.rotate(line_crop, cv2.ROTATE_90_CLOCKWISE)
-                    line_text += self.mocr(Image.fromarray(line_crop))
+                    #line_text += self.mocr(Image.fromarray(line_crop))
+                    line_text += self.eocr.readtext(line_crop, detail = 0)[0]
 
                 result_blk['lines_coords'].append(line.tolist())
                 result_blk['lines'].append(line_text)

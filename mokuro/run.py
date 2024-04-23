@@ -4,7 +4,7 @@ import fire
 from loguru import logger
 from natsort import natsorted
 
-from mokuro import OverlayGenerator
+from overlay_generator import OverlayGenerator
 
 
 def run(*paths,
