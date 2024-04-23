@@ -18,6 +18,7 @@ class MangaPageOcr:
     def __init__(self,
                  pretrained_model_name_or_path='kha-white/manga-ocr-base',
                  force_cpu=False,
+                 lang='fra',
                  detector_input_size=1024,
                  text_height=64,
                  max_ratio_vert=16,
@@ -25,6 +26,8 @@ class MangaPageOcr:
                  anchor_window=2,
                  ):
 
+        self.lang = lang
+        
         self.text_height = text_height
         self.max_ratio_vert = max_ratio_vert
         self.max_ratio_hor = max_ratio_hor
@@ -72,7 +75,7 @@ class MangaPageOcr:
                         line_crop = cv2.rotate(line_crop, cv2.ROTATE_90_CLOCKWISE)
                     #line_text += self.mocr(Image.fromarray(line_crop))
                     #line_text += self.eocr.readtext(line_crop, detail = 0)[0]
-                    line_text += pytesseract.image_to_string(line_crop, lang='fra', config='--psm 7')
+                    line_text += pytesseract.image_to_string(line_crop, lang=self.lang, config='--psm 7')
 
                 result_blk['lines_coords'].append(line.tolist())
                 result_blk['lines'].append(line_text)

@@ -13,7 +13,8 @@ def run(*paths,
         force_cpu=False,
         as_one_file=True,
         disable_confirmation=True,
-        mobile=True
+        mobile=True,
+        lang='eng'
         ):
     paths = [Path(p).expanduser().absolute() for p in paths]
 
@@ -40,7 +41,7 @@ def run(*paths,
             return
 
     ovg = OverlayGenerator(
-        pretrained_model_name_or_path=pretrained_model_name_or_path, force_cpu=force_cpu)
+        pretrained_model_name_or_path=pretrained_model_name_or_path, force_cpu=force_cpu, lang=lang)
 
     num_sucessful = 0
     for i, path in enumerate(paths):
