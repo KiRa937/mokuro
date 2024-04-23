@@ -11,6 +11,7 @@ from mokuro.cache import cache
 from mokuro.utils import imread
 
 import easyocr
+import pytesseract
 
 
 class MangaPageOcr:
@@ -34,7 +35,8 @@ class MangaPageOcr:
                                           device='cpu',
                                           act='leaky')
         #self.mocr = MangaOcr(pretrained_model_name_or_path, force_cpu)
-        self.eocr = easyocr.Reader(['fr'])
+        #self.eocr = easyocr.Reader(['fr'])
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
     def __call__(self, img_path):
         img = imread(img_path)
@@ -66,12 +68,11 @@ class MangaPageOcr:
                 line_text = ''
                 
                 for line_crop in line_crops:
-                    #print("DEBUG")
-                    #print(Image.fromarray(line_crop))
                     if blk.vertical:
                         line_crop = cv2.rotate(line_crop, cv2.ROTATE_90_CLOCKWISE)
                     #line_text += self.mocr(Image.fromarray(line_crop))
-                    line_text += self.eocr.readtext(line_crop, detail = 0)[0]
+                    #line_text += self.eocr.readtext(line_crop, detail = 0)[0]
+                    line_text += pytesseract.image_to_string(line_crop, lang='fra', config='--psm 7')
 
                 result_blk['lines_coords'].append(line.tolist())
                 result_blk['lines'].append(line_text)
